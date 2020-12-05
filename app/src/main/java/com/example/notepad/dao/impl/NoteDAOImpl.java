@@ -33,6 +33,7 @@ public class NoteDAOImpl implements NoteDAO {
         noteDBHelper=new NoteDBHelper(context,null,null,1);
         db=noteDBHelper.getWritableDatabase();
     }
+
     private void close(){
         noteDBHelper.close();
         db.close();

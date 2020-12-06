@@ -52,4 +52,9 @@ public class NoteAdapter extends BaseAdapter implements Filterable {
     public Filter getFilter() {
         return null;
     }
+
+    public void changeList(List list){
+        noteList=list;
+        notifyDataSetChanged();
+    }
 }

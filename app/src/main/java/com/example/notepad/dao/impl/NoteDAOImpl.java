@@ -10,6 +10,9 @@ import com.example.notepad.Note;
 import com.example.notepad.dao.NoteDAO;
 import com.example.notepad.db.NoteDBHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.notepad.db.NoteDBHelper.CONTENT;
 import static com.example.notepad.db.NoteDBHelper.ID;
 import static com.example.notepad.db.NoteDBHelper.MODE;
@@ -25,7 +28,7 @@ public class NoteDAOImpl implements NoteDAO {
     private SQLiteOpenHelper noteDBHelper;
     private SQLiteDatabase db;
     private Context context;
-    public NoteDAOImpl(){}
+
     public NoteDAOImpl(Context context){
         this.context=context;
     }
@@ -60,6 +63,7 @@ public class NoteDAOImpl implements NoteDAO {
                     cursor.getString(cursor.getColumnIndex(TIME)),
                     cursor.getString(cursor.getColumnIndex(MODE)));
         }
+        close();
         return note;
     }
 
@@ -76,7 +80,25 @@ public class NoteDAOImpl implements NoteDAO {
     public int remove(Note note) {
         init();
         int delete = db.delete(TABLE_NAME, ID + "=?", new String[]{String.valueOf(note.getId())});
+        close();
         return delete;
+    }
+
+    @Override
+    public List<Note> getAllNote() {
+        init();
+        Cursor cursor = db.query(TABLE_NAME, projections, null, null,
+                null, null, null, null);
+        List<Note> notes=new ArrayList<>();
+        if (cursor!=null){
+            while (cursor.moveToNext()){
+                notes.add(new Note(cursor.getString(cursor.getColumnIndex(CONTENT)),
+                        cursor.getString(cursor.getColumnIndex(TIME)),
+                        cursor.getString(cursor.getColumnIndex(MODE))));
+            }
+        }
+        close();
+        return notes;
     }
 
     private ContentValues getContentValues(Note note){

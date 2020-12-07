@@ -2,6 +2,7 @@ package com.example.notepad;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ public class EditActivity extends BaseActivity implements View.OnClickListener{
 
     private Button bt_save;
     private EditText et_content;
+    private Note note;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,11 @@ public class EditActivity extends BaseActivity implements View.OnClickListener{
         bt_save=findViewById(R.id.bt_save);
         et_content=findViewById(R.id.et_content);
         bt_save.setOnClickListener(this);
+        note = (Note) getIntent().getParcelableExtra("note");
+        if (note!=null){
+            et_content.setText(note.getContent());
+        }
+
     }
 
 

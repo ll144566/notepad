@@ -3,6 +3,7 @@ package com.example.notepad.dao.impl;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -87,8 +88,9 @@ public class NoteDAOImpl implements NoteDAO {
     @Override
     public List<Note> getAllNote() {
         init();
-        Cursor cursor = db.query(TABLE_NAME, projections, null, null,
+        Cursor cursor1 = db.query(TABLE_NAME, projections, null, null,
                 null, null, null, null);
+        CursorWrapper cursor=new CursorWrapper(cursor1);
         List<Note> notes=new ArrayList<>();
         if (cursor!=null){
             while (cursor.moveToNext()){

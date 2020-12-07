@@ -57,4 +57,6 @@ public class NoteAdapter extends BaseAdapter implements Filterable {
         noteList=list;
         notifyDataSetChanged();
     }
+
+
 }

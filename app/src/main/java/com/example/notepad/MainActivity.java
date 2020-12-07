@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -18,8 +19,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     public final static  int ADD_NOTE_CONTENT=0;
+    public final static  int EDIT_NOTE_CONTENT=1;
     private static final String TAG = "10086";
     private NoteService noteService;
     private List<Note> noteList;
@@ -37,6 +39,7 @@ public class MainActivity extends BaseActivity {
         lv=findViewById(R.id.lv);
         adapter=new NoteAdapter(this,noteList);
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,7 +66,7 @@ public class MainActivity extends BaseActivity {
             case ADD_NOTE_CONTENT:
                 Note note = new Note(data.getStringExtra("content"),
                         data.getStringExtra("time"), "1");
-                noteList.clear();
+
 
 
                 noteService.addNote(note);
@@ -73,6 +76,15 @@ public class MainActivity extends BaseActivity {
         }
     }
     private void refresh(){
-        adapter.changeList(noteService.getAllNote());
+        noteList=noteService.getAllNote();
+        adapter.changeList(noteList);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Note note = (Note) noteList.get(position);
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra("note",note);
+        startActivityForResult(intent,EDIT_NOTE_CONTENT);
     }
 }

@@ -37,7 +37,6 @@ public class MainActivity extends BaseActivity {
         lv=findViewById(R.id.lv);
         adapter=new NoteAdapter(this,noteList);
         lv.setAdapter(adapter);
-        refresh();
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,6 +51,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
@@ -62,8 +67,7 @@ public class MainActivity extends BaseActivity {
 
 
                 noteService.addNote(note);
-                refresh();
-                Log.d(TAG, "onActivityResult: "+noteList);
+
                 break;
 
         }

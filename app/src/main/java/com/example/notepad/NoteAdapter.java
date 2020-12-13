@@ -26,7 +26,7 @@ public class NoteAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return noteList.get(position);
     }
 
     @Override

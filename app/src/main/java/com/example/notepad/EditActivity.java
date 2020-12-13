@@ -35,8 +35,8 @@ public class EditActivity extends BaseActivity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.bt_save:
                 Intent result_intent=new Intent();
-                result_intent.putExtra("content",et_content.getText().toString());
-                result_intent.putExtra("time",getTime());
+                Note note=new Note(et_content.getText().toString(),getTime(),"1");
+                result_intent.putExtra("note",note);
                 setResult(0,result_intent);
                 finish();
                 break;

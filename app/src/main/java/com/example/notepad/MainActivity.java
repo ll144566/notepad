@@ -64,13 +64,11 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case ADD_NOTE_CONTENT:
-                Note note = new Note(data.getStringExtra("content"),
-                        data.getStringExtra("time"), "1");
-
-
-
-                noteService.addNote(note);
-
+                noteService.addNote(data.getParcelableExtra("note"));
+                break;
+            case EDIT_NOTE_CONTENT:
+                noteService.update(data.getParcelableExtra("note"));
+                refresh();
                 break;
 
         }
@@ -82,7 +80,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Note note = (Note) noteList.get(position);
+        Note note = (Note) parent.getItemAtPosition(position);
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra("note",note);
         startActivityForResult(intent,EDIT_NOTE_CONTENT);

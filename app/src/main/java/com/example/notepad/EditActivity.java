@@ -15,6 +15,7 @@ public class EditActivity extends BaseActivity implements View.OnClickListener{
     private Button bt_save;
     private EditText et_content;
     private Note note;
+    private long id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,15 @@ public class EditActivity extends BaseActivity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.bt_save:
                 Intent result_intent=new Intent();
-                Note note=new Note(et_content.getText().toString(),getTime(),"1");
-                result_intent.putExtra("note",note);
+                Note tmpNote=null;
+                if (this.note==null){
+                    tmpNote=new Note(et_content.getText().toString(),getTime(),"1");
+                }else {
+                    tmpNote=note;
+                    tmpNote.setTime(getTime());
+                    tmpNote.setContent(et_content.getText().toString());
+                }
+                result_intent.putExtra("note",tmpNote);
                 setResult(0,result_intent);
                 finish();
                 break;

@@ -24,7 +24,8 @@ public class NoteDAOImpl implements NoteDAO {
     private String[] projections={
             CONTENT,
             MODE,
-            TIME
+            TIME,
+            ID
     };
     private SQLiteOpenHelper noteDBHelper;
     private SQLiteDatabase db;
@@ -62,7 +63,8 @@ public class NoteDAOImpl implements NoteDAO {
             cursor.moveToFirst();
             note=new Note(cursor.getString(cursor.getColumnIndex(CONTENT)),
                     cursor.getString(cursor.getColumnIndex(TIME)),
-                    cursor.getString(cursor.getColumnIndex(MODE)));
+                    cursor.getString(cursor.getColumnIndex(MODE)),
+                    id);
         }
         close();
         return note;
@@ -96,7 +98,8 @@ public class NoteDAOImpl implements NoteDAO {
             while (cursor.moveToNext()){
                 notes.add(new Note(cursor.getString(cursor.getColumnIndex(CONTENT)),
                         cursor.getString(cursor.getColumnIndex(TIME)),
-                        cursor.getString(cursor.getColumnIndex(MODE))));
+                        cursor.getString(cursor.getColumnIndex(MODE)),
+                        cursor.getLong(cursor.getColumnIndex(ID))));
             }
         }
         close();

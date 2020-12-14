@@ -15,6 +15,11 @@ public class Note implements Parcelable {
         this.tag = tag;
     }
 
+    public Note(String content, String time, String tag, long id) {
+        this(content,time,tag);
+        this.id = id;
+    }
+
     protected Note(Parcel in) {
         id = in.readLong();
         content = in.readString();
